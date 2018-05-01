@@ -8,11 +8,12 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,9 +21,8 @@ import java.util.Map;
 /**
  * @author hdd
  * 2018年4月23日
- * 
  */
-@Controller
+@RestController
 @RequestMapping("/userConfig")
 public class UserConfigController {
 	Logger log=LoggerFactory.getLogger(UserConfigController.class);
@@ -32,9 +32,8 @@ public class UserConfigController {
 	
 	@RequestMapping(value="/loadTables")
 	@ResponseBody
-	public Object loadTables(@RequestBody DataSource d){
+	public Object loadTables(@RequestBody DataSource d) throws SQLException {
 		Map<String,Object> m=new HashMap<>();
-		try{
 			if(d == null ){
 				throw new AutoCreateUnCheckException("数据库配置不能为空！");
 			}else if(StringUtils.isBlank(d.getUrl())){
@@ -51,17 +50,11 @@ public class UserConfigController {
 			
 			if("oracle".equals(d.getDbType())){
 				d.setUrl("jdbc:oracle:thin:@"+d.getUrl()+":"+d.getPort()+":"+d.getDbName());
-			}else{
+			}else if ("mysql".equals(d.getDbType())){
 				d.setUrl("jdbc:mysql://"+d.getUrl()+":"+d.getPort()+"/"+d.getDbName()+"?useSSL=false");
-			}
-			
-			List<Table> tableList=userDBService.loadTables(d);
-			m.put("data", tableList);
-		}catch(Exception e){
-			log.error(e.getMessage(),e);
-			m.put("returnCode", "1");
-			m.put("errorMsg", e.getMessage());
-		}
-		return m;
+			}else{
+                throw new AutoCreateUnCheckException("暂不支持该数据库类型，请选用MySQL或Oracle！");
+            }
+		return userDBService.loadTables(d);
 	}
 }

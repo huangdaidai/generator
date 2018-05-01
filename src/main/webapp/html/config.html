@@ -9,14 +9,12 @@
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
     <LINK rel="Bookmark" href="/favicon.ico">
     <LINK rel="Shortcut Icon" href="/favicon.ico"/>
-    <!--[if lt IE 9]>
-    <!--<script type="text/javascript" src="lib/html5shiv.js"></script>
-    <script type="text/javascript" src="lib/respond.min.js"></script>-->
-    <script type="text/javascript" src="../js/common/header.js"></script>
-    <![endif]-->
-    <!--<link href="static/h-ui/css/H-ui.min.css" rel="stylesheet" type="text/css" />
-    <link href="static/h-ui.admin/css/H-ui.admin.css" rel="stylesheet" type="text/css" />
-    <link href="lib/Hui-iconfont/1.0.8/iconfont.css" rel="stylesheet" type="text/css" />-->
+
+    <link rel="stylesheet" type="text/css" href="../static/h-ui/css/H-ui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/H-ui.admin.css" />
+    <link rel="stylesheet" type="text/css" href="../lib/Hui-iconfont/1.0.8/iconfont.css" />
+    <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/skin/default/skin.css" id="skin" />
+    <link rel="stylesheet" type="text/css" href="../static/h-ui.admin/css/style.css" />
 
     <style type="text/css">
         .col-xs-8 {
@@ -37,68 +35,79 @@
 <div class="page-container">
     <div>
         <div class="col-xs-8">
+            <table class="table table-border table-bordered table-bg radius ">
+                <thead>
+                    <tr>
+                        <th colspan="7" scope="col">项目基本配置</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-c">
+                        <td>包名：</td>
+                        <td><input name="package" type="text" class="input-text radius size-M" placeholder="com.hdd.autoCreate"/></td>
+                    </tr>
+                    <tr class="text-c">
+                        <td>作者：</td>
+                        <td><input name="author" type="text" class="input-text radius size-M" placeholder="hdd"/></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <div class="col-xs-8">
             <form id="dataSource">
                 <table class="table table-border table-bordered table-bg radius ">
                     <thead>
-                    <tr>
-                        <th colspan="7" scope="col">数据源配置</th>
-                    </tr>
+                        <tr>
+                            <th colspan="7" scope="col">
+                                数据源配置
+                                <span class="radio-box">
+                                    <input type="radio" id="radio-1" name="dbType" value="mysql" ><label for="radio-1">mysql</label>
+                                    &nbsp;
+                                    <input type="radio" id="radio-2" name="dbType" value="oracle" checked><label for="radio-2">oracle</label>
+                                </span>
+                            </th>
+                        </tr>
                     </thead>
                     <tbody>
-                    <tr class="text-c">
-                        <td>URL</td>
-                        <td><input name="url" type="text" class="input-text radius size-M" placeholder="192.168.0.1"/></td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>端口</td>
-                        <td><input name="port" type="text" class="input-text radius size-M" placeholder="3306"/></td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>账号</td>
-                        <td><input name="userName" type="text" class="input-text radius size-M" placeholder="root"/></td>
-                    </tr>
-                    <tr class="text-c">
-                        <td>密码</td>
-                        <td><input name="password" type="text" class="input-text radius size-M" placeholder="root"/></td>
-                    </tr>
-                    <tr class="text-c">
-                        <td colspan="2">
-                            <a class="btn btn-secondary radius" onclick="loadTables()">确定</a>
-                        </td>
-                    </tr>
+                        <tr class="text-c">
+                            <td>URL</td>
+                            <td><input name="url" type="text" class="input-text radius size-M" value="58.62.207.50"/></td>
+                        </tr>
+                        <tr class="text-c">
+                            <td>端口</td>
+                            <td><input name="port" type="text" class="input-text radius size-M" value="5352"/></td>
+                        </tr>
+                        <tr class="text-c">
+                            <td>数据库名称 </td>
+                            <td><input name="dbName" type="text" class="input-text radius size-M" value="dkdz"/></td>
+                        </tr>
+                        <tr class="text-c">
+                            <td>账号</td>
+                            <td><input name="userName" type="text" class="input-text radius size-M" value="db_dkdz_test"/></td>
+                        </tr>
+                        <tr class="text-c">
+                            <td>密码</td>
+                            <td><input name="password" type="text" class="input-text radius size-M" value="foresee"/></td>
+                        </tr>
+                        <tr class="text-c">
+                            <td colspan="2">
+                                <a class="btn btn-secondary radius" onclick="loadTables()">确定</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </form>
         </div>
         <div class="col-xs-4">
-            <p class="f20">
-                无外网数据库，可使用本站公用数据库进行体验在线生成代码。<br>
+            <p class="text-l va-m">
+                若无外网数据库，可使用本站公用数据库进行体验在线生成代码。<br>
                 URL: 192.168.0.1:3306<br>
                 username: root<br>
                 password: root<br>
                 <strong>注意：从安全角度考虑，本数据库仅用于体验代码生成器，不可将实际项目表结构导入本数据库，因此导致数据泄露，本站概不负责！</strong>
             </p>
-        </div>
-    </div>
-    <div>
-        <div class="col-xs-8">
-            <table class="table table-border table-bordered table-bg radius ">
-                <thead>
-                <tr>
-                    <th colspan="7" scope="col">项目基本配置</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="text-c">
-                    <td>包名：</td>
-                    <td><input type="text" class="input-text radius size-M" placeholder="com.hdd.autoCreate"/></td>
-                </tr>
-                <tr class="text-c">
-                    <td>作者：</td>
-                    <td><input type="text" class="input-text radius size-M" placeholder="hdd"/></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     </div>
     <div>
@@ -184,8 +193,11 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="../js/common/footer.js"></script>
-
+<script type="text/javascript" src="../lib/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript" src="../lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="../static/h-ui/js/H-ui.min.js"></script>
+<script type="text/javascript" src="../static/h-ui.admin/js/H-ui.admin.js"></script>
+<script type="text/javascript" src="../js/common/common.js"></script>
 </body>
 <script type="text/javascript">
     function page_add(title, url) {

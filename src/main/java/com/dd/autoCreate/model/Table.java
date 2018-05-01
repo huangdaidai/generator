@@ -1,13 +1,15 @@
 package com.dd.autoCreate.model;
 
-import java.util.List;
-
 import lombok.Data;
+
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class Table {
 	private String tableName;
 	private String className;
 	private List<Field> fieldList;
-	private Field primaryKey;
+	private List<Field> primaryKeyList;
+	private Set<String> typeSet;
 }

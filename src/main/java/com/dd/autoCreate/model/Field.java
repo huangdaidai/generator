@@ -8,12 +8,7 @@ public class Field {
     String fieldNameInClass;
     String typeInDB;
     String typeInClass;
-    String collation;
-    String nvll;
     String key;
-    String defaults;
-    String extra;
-    String privileges;
     String comment;
     
 }
