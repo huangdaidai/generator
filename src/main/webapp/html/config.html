@@ -118,7 +118,7 @@
                     <th colspan="2">
 							<span class="l">
 								<a class="btn btn-primary radius" data-title="添加父级菜单"
-                                   onclick="page_add('添加父级菜单','page-add.html')" href="javascript:;"><i
+                                   onclick="addParentMenu()" href="javascript:;"><i
                                         class="Hui-iconfont">&#xe600;</i> 添加父级菜单</a>
 							</span>
                         <span class="r">共有父级菜单数据：<strong>3</strong> 条</span>
@@ -129,18 +129,14 @@
                     <th>操作</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody id="parentMenuTbody">
                 <tr class="text-c">
-                    <td>系统管理</td>
-                    <td class="f-14 td-manage"><a style="text-decoration:none" onClick="article_stop(this,'10001')"
-                                                  href="javascript:;" title="下架"><i
-                            class="Hui-iconfont">&#xe6de;</i></a> <a style="text-decoration:none" class="ml-5"
-                                                                     onClick="article_edit('资讯编辑','article-add.html','10001')"
-                                                                     href="javascript:;" title="编辑"><i
-                            class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5"
-                                                                     onClick="article_del(this,'10001')"
+                    <td><input name="parentMenuName" type="text" class="input-text radius size-M" placeholder="请输入父级菜单名称"/></td>
+                    <td class="f-14 td-manage">
+                        <a style="text-decoration:none" class="ml-5"   onClick="article_del(this,'10001')"
                                                                      href="javascript:;" title="删除"><i
-                            class="Hui-iconfont">&#xe6e2;</i></a></td>
+                            class="Hui-iconfont">&#xe6e2;</i></a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -211,11 +207,26 @@
             content: url
         });
     }
-
+    function addParentMenu(){
+        var trHtml="<tr class=\"text-c\">" +
+            "<td><input name=\"parentMenuName\" type=\"text\" class=\"input-text radius size-M\" placeholder=\"请输入父级菜单名称\"/></td>\n" +
+            "<td class=\"f-14 td-manage\">" +
+            "<a style=\"text-decoration:none\" class=\"ml-5\"   onClick=\"article_del(this,'10001')\" href=\"javascript:;\" title=\"删除\"><i class=\"Hui-iconfont\">&#xe6e2;</i></a>" +
+            "</td></tr>";
+       $("#parentMenuTbody").append(trHtml);
+    }
+    var tableDetail;
     function loadTables() {
     	var param=autoCreate.common.getFormAsJson("dataSource");
     	autoCreate.common.ajax(rootPath + "userConfig/loadTables",param,true,function(result){
-    		console.info(result);
+            tableDetail=JSON.parse(result);
+            if (tableDetail.code == '-1'){
+                layer.alert(tableDetail.msg);
+            }else {
+                tableDetail.each(function (t) {
+
+                });
+            }
     	});
     }
 </script>
