@@ -4,25 +4,31 @@ server:
     context-path: /auto
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/account?useSSL=true
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
-    filters: stat
-    maxActive: 20
-    initialSize: 1
-    maxWait: 60000
-    minIdle: 1
-    timeBetweenEvictionRunsMillis: 60000
-    minEvictableIdleTimeMillis: 300000
-    validationQuery: select 'x'
-    testWhileIdle: true
-    testOnBorrow: false
-    testOnReturn: false
-    poolPreparedStatements: true
-    maxOpenPreparedStatements: 20
-    
+    druid:
+      url: jdbc:mysql://localhost:3306/account?useSSL=true
+      username: root
+      password: root
+      driver-class-name: com.mysql.jdbc.Driver
+      initial-Size: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      filters: stat,wall,logback
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid
+        login-username: admin
+        login-password: admin
+
+
 mybatis:
   mapper-locations: classpath:com/hdd/account/dao/mapper/*.xml
   type-aliases-package: com.hdd.account
@@ -32,12 +38,3 @@ pagehelper:
   reasonable: true
   supportMethodsArguments: true
   params: count=countSql
-
-spring:
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-    encoding: utf-8
-    content-type: text/html
-    check-template-location: true
