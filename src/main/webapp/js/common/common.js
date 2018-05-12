@@ -1,6 +1,6 @@
-﻿var autoCreate={};
+﻿var generator={};
 var rootPath ; //项目路径
-autoCreate.common = {
+generator.common = {
 	/**
 	 * ajax请求
 	 * @param url
@@ -64,4 +64,4 @@ autoCreate.common = {
 		return hostPath + name + "/";
 	}
 }
-rootPath = autoCreate.common.getRootPath();
+rootPath = generator.common.getRootPath();

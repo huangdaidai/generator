@@ -3,13 +3,14 @@
  */
 package com.dd.generator.service.impl;
 
-import com.dd.generator.common.exception.AutoCreateUnCheckException;
+import com.dd.generator.common.exception.GeneratorRuntimeException;
 import com.dd.generator.common.util.DB2ClassUtil;
 import com.dd.generator.common.util.JDBCUtil;
 import com.dd.generator.model.DataSource;
 import com.dd.generator.model.Field;
 import com.dd.generator.model.Table;
 import com.dd.generator.service.UserDBService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
@@ -39,7 +40,7 @@ public class UserDBServiceImpl implements UserDBService {
         Connection conne = JDBCUtil.OpenConn(dataSource);
         ResultSet rs = conne.prepareStatement("show tables;").executeQuery();
         if (rs == null) {
-            throw new AutoCreateUnCheckException("数据库表为空，请先创建表！");
+            throw new GeneratorRuntimeException("数据库表为空，请先创建表！");
         }
         List<Table> tableList = new ArrayList<>();
         while (rs.next()) {
@@ -66,6 +67,8 @@ public class UserDBServiceImpl implements UserDBService {
             t.setFieldList(fieldList);
             t.setPrimaryKeyList(keyList);
         }
+        rs.close();
+        conne.close();
         return tableList;
     }
 
@@ -73,7 +76,7 @@ public class UserDBServiceImpl implements UserDBService {
         Connection conne = JDBCUtil.OpenConn(dataSource);
         ResultSet rs = conne.prepareStatement("select table_name from tabs").executeQuery();
         if (rs == null) {
-            throw new AutoCreateUnCheckException("数据库表为空，请先创建表！");
+            throw new GeneratorRuntimeException("数据库表为空，请先创建表！");
         }
         List<Table> tableList = new ArrayList<>();
         while (rs.next()) {
@@ -81,13 +84,17 @@ public class UserDBServiceImpl implements UserDBService {
             Table t = new Table();
             t.setTableName(tableName);
             t.setClassName(DB2ClassUtil.a_b2AB(tableName));
-            String getFieldSql = "select col.column_name,col.data_type,case when cons.position is null then '' else 'PRI' end as position,com.comments " +
-                    "from user_tab_columns col " +
-                    "left join user_col_comments com on col.table_name=com.table_name and col.column_name=com.column_name " +
-                    "left join user_cons_columns cons on cons.table_name = col.table_name and cons.column_name=col.column_name  and cons.position is not null " +
-                    "where col.table_Name='" + tableName +
-                    "'order by col.column_id asc";
+            String getFieldSql = new StringBuilder()
+                    .append("select col.column_name,col.data_type,case when cons.position is null then '' else 'PRI' end as position,com.comments ")
+                    .append("from user_tab_columns col ")
+                    .append("left join user_col_comments com on col.table_name=com.table_name and col.column_name=com.column_name ")
+                    .append("left join user_cons_columns cons on cons.table_name = col.table_name and cons.column_name=col.column_name  and cons.position is not null ")
+                    .append("where col.table_Name='")
+                    .append(tableName)
+                    .append("'order by col.column_id asc")
+                    .toString();
             List<Field> fieldList = new ArrayList<>();
+            List<String> fieldNameList = new ArrayList<>();
             List<Field> keyList = new ArrayList<>();
             Set<String> typeSet = new HashSet<>();
             ResultSet fieldsRs = conne.prepareStatement(getFieldSql).executeQuery();
@@ -103,11 +110,13 @@ public class UserDBServiceImpl implements UserDBService {
                 if ("PRI".equalsIgnoreCase(field.getKey())) {
                     keyList.add(field);
                 }
+                fieldNameList.add(fieldsRs.getString(1));
                 typeSet.add(DB2ClassUtil.db2UniqueType(fieldsRs.getString(2)));
             }
             t.setFieldList(fieldList);
             t.setPrimaryKeyList(keyList);
             t.setTypeSet(typeSet);
+            t.setFieldNameList(fieldNameList);
             tableList.add(t);
         }
         rs.close();

@@ -11,18 +11,20 @@ import lombok.Data;
  * 
  */
 @Data
-public class AutoCreateUnCheckException extends RuntimeException{
+public class GeneratorRuntimeException extends RuntimeException{
 
 	private static final long serialVersionUID = 1L;
 
 	private String code;
 
 	private String msg;
-	/**
-	 * @param string
-	 */
-	public AutoCreateUnCheckException(String s) {
+
+	public GeneratorRuntimeException(String s) {
 		super(s);
 	}
+
+    public GeneratorRuntimeException(String s,Exception e){
+	    super(s,e);
+    }
 
 }

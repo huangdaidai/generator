@@ -1,4 +1,4 @@
-package com.dd.generator.config;
+package com.dd.generator.common.config;
 
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.alibaba.druid.support.http.WebStatFilter;

@@ -45,9 +45,20 @@ function getRootPath() {
 dynamicLoading.meta();
 
 //动态加载项目 css文件
-dynamicLoading.css(rootPath + "/static/h-ui/css/H-ui.min.css");
-dynamicLoading.css(rootPath + "/static/h-ui.admin/css/H-ui.admin.css");
-dynamicLoading.css(rootPath + "/lib/Hui-iconfont/1.0.8/iconfont.css");
-dynamicLoading.css(rootPath + "/static/h-ui.admin/skin/default/skin.css");
-dynamicLoading.css(rootPath + "/static/h-ui.admin/css/style.css");
+dynamicLoading.css(rootPath + "static/h-ui/css/H-ui.min.css");
+dynamicLoading.css(rootPath + "static/h-ui.admin/css/H-ui.admin.css");
+dynamicLoading.css(rootPath + "lib/Hui-iconfont/1.0.8/iconfont.css");
+dynamicLoading.css(rootPath + "static/h-ui.admin/skin/default/skin.css");
+dynamicLoading.css(rootPath + "static/h-ui.admin/css/style.css");
+
+
+//动态加载项目 js文件
+dynamicLoading.js(rootPath + "lib/jquery/1.9.1/jquery.min.js","UTF-8");
+dynamicLoading.js(rootPath + "lib/layer/2.4/layer.js","UTF-8");
+dynamicLoading.js(rootPath + "lib/jquery.validation/1.14.0/jquery.validate.js","UTF-8");
+dynamicLoading.js(rootPath + "lib/jquery.validation/1.14.0/validate-methods.js","UTF-8");
+dynamicLoading.js(rootPath + "lib/jquery.validation/1.14.0/messages_zh.js","UTF-8");
+dynamicLoading.js(rootPath + "static/h-ui/js/H-ui.min.js","UTF-8");
+dynamicLoading.js(rootPath + "static/h-ui.admin/js/H-ui.admin.js","UTF-8");
+dynamicLoading.js(rootPath + "js/common/common.js","UTF-8");
 
